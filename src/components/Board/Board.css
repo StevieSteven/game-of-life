@@ -1,0 +1,25 @@
+.alive {
+    background-color: #007800;
+    width: 40px;
+    height:40px;
+    margin: 3px
+}
+
+.dead {
+    background-color: #a80000;
+    width: 40px;
+    height:40px;
+    margin: 3px
+}
+
+.headerCell {
+    width: 40px;
+    height:40px;
+    margin: 3px
+}
+
+.lineCell {
+    width: 40px;
+    height:40px;
+    margin: 3px
+}
