@@ -21,7 +21,7 @@ export default class DecimalStep extends React.Component {
                 <Col span={4}>
                     <InputNumber
                         min={0}
-                        max={1}
+                        max={3}
                         style={{ marginLeft: 16 }}
                         step={0.01}
                         value={this.state.inputValue}

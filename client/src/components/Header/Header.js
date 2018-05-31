@@ -1,22 +1,23 @@
 import React from 'react';
+import {translate } from "react-translate"
 
 import {Row, Col} from 'antd';
 
 import LanguagePicker from './../common/LanguagePicker/LanguagePicker';
 
 import './../../App.css';
-export default (props) => {
+const Header = (props) => {
     return (
         <header className="App-header">
         <Row>
-            <Col span={12}>
+            <Col span={4}>
                 <h1 className="App-title">Game of Life</h1>
             </Col>
 
-            <Col span={6}>
-                Dein Link zum Board: {props.link}
+            <Col span={15} className="App-linkLine">
+                {props.t("LINK")}: <a href={props.link}> {props.link}</a>
             </Col>
-            <Col span={6}>
+            <Col span={5}>
                 <LanguagePicker
                     onChange={props.changeLanguage}
                     selected={props.selectedLanguage}
@@ -28,4 +29,6 @@ export default (props) => {
         </Row>
     </header> );
 
-}
+};
+
+export default translate("HEADER")(Header)

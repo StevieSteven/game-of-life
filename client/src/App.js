@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-
+// import {translate} from 'react-translate';
 import {Row, Col, notification} from 'antd';
+
 import {TranslatorProvider} from "react-translate"
 import translations from './translations/translations';
-
 import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
 
 import './App.css';
@@ -13,28 +13,38 @@ import Board from "./components/Board/Board";
 import Header from "./components/Header/Header";
 import ControlPanel from "./components/ControlPanel/ControlPanel";
 
-const START_SIZE = 3;
+const START_SIZE = 10;
+
+
+const translateManuel = (locale, textID) => {
+    const language = translations[locale];
+    if(!language)
+        return `APP.${textID}`;
+    const appLanguage = language['APP'];
+    if(!appLanguage)
+        return `APP.${textID}`;
+
+    const text = appLanguage[textID];
+    return text ? text :`APP.${textID}` ;
+};
 
 class App extends Component {
-
-
 
 
     constructor(props) {
         super(props);
 
-        console.log("Constructur: ", window.location.pathname);
 
         let board;
-        let pathName = window.location.pathname.substr(1, window.location.pathname.length -1);
+        let pathName = window.location.pathname.substr(1, window.location.pathname.length - 1);
 
-        if(pathName && pathName.length > 0) {
+        if (pathName && pathName.length > 0) {
             board = LogicBoard.generateBoardFromParameter(pathName);
 
-            if(!board) {
+            if (!board) {
                 notification['error']({
-                    message: 'Import gescheitert',
-                    description: 'Der Link ist fehlerhaft! Import gescheitert!',
+                    message: "Import failed",
+                    // description: 'Der Link ist fehlerhaft! Import gescheitert!',
                 });
                 board = new LogicBoard({
                     sizeX: START_SIZE,
@@ -47,8 +57,6 @@ class App extends Component {
                 sizeY: START_SIZE,
             })
         }
-
-
         this.state = {
             selectedLanguage: "de",
             history: [],
@@ -58,6 +66,8 @@ class App extends Component {
             sizeY: board.getSizeY(),
             board
         };
+
+
     }
 
 
@@ -79,13 +89,18 @@ class App extends Component {
         board.calculateNewBoard();
 
         let onesAlive = board.getOnesAlive();
-        this.setState({step, board, history});
+        this.setState({step, board, history, gameFinished: !onesAlive});
 
 
         if (!onesAlive) {
+            // notification['info']({
+            //     message: 'Simulation abgeschlossen',
+            //     description: 'Es gibt keine lebende Felder mehr. Die Simulation ist abgeschlossen',
+            // });
+
             notification['info']({
-                message: 'Simulation abgeschlossen',
-                description: 'Es gibt keine lebende Felder mehr. Die Simulation ist abgeschlossen',
+                message: translateManuel(this.state.selectedLanguage, "TITLE"),
+                description:  translateManuel(this.state.selectedLanguage, "TEXT"),
             });
         }
     };
@@ -103,7 +118,7 @@ class App extends Component {
     };
 
     startGame = () => {
-        this.setState({gameStarted: true})
+        this.setState({gameStarted: true, gameFinished: false})
     };
 
     stopGame = () => {
@@ -159,31 +174,37 @@ class App extends Component {
                         link={this.createLink()}
                     />
 
-                    <Row>
-                        <Col span={18}>
-                            <Board
-                                gameStarted={this.state.gameStarted}
-                                step={this.state.step}
-                                board={this.state.board}
-                                changeValueOfField={this.changeValueOfField}
-                            />
-                        </Col>
+                    <div className="App-MainContent">
+                        <Row>
+                            <Col span={16} offset={1}>
+                                <div className="CardContainer">
+                                    <Board
+                                        gameStarted={this.state.gameStarted}
+                                        step={this.state.step}
+                                        board={this.state.board}
+                                        changeValueOfField={this.changeValueOfField}
+                                    />
+                                </div>
+                            </Col>
 
-                        <Col span={6}>
-                            <ControlPanel
-                                gameStarted={this.state.gameStarted}
-                                sizeX={this.state.sizeX}
-                                sizeY={this.state.sizeY}
-                                startGame={this.startGame}
-                                stopGame={this.stopGame}
-                                createNewBoard={this.createNewBoard}
-                                nextStep={this.nextStep}
-                                prevStep={this.prevStep}
-                            />
-                        </Col>
+                            <Col span={6}>
+                                <div className="CardContainer">
+                                    <ControlPanel
+                                        gameStarted={this.state.gameStarted}
+                                        gameFinished={this.state.gameFinished}
+                                        sizeX={this.state.sizeX}
+                                        sizeY={this.state.sizeY}
+                                        startGame={this.startGame}
+                                        stopGame={this.stopGame}
+                                        createNewBoard={this.createNewBoard}
+                                        nextStep={this.nextStep}
+                                        prevStep={this.prevStep}
+                                    />
+                                </div>
+                            </Col>
 
-                    </Row>
-
+                        </Row>
+                    </div>
                 </div>
             </TranslatorProvider>
         );

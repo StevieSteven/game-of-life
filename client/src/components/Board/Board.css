@@ -1,12 +1,12 @@
 .alive {
-    background-color: #007800;
+    background-color: #787771;
     width: 40px;
     height:40px;
     margin: 3px
 }
 
 .dead {
-    background-color: #a80000;
+    background-color: #f8f8f2;
     width: 40px;
     height:40px;
     margin: 3px
@@ -22,4 +22,13 @@
     width: 40px;
     height:40px;
     margin: 3px
+}
+
+.Board {
+    text-align: center;
+    float: inherit;
+}
+
+.Board-Column {
+    padding-top: 5px;
 }

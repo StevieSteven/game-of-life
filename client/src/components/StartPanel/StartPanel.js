@@ -1,9 +1,10 @@
 import React from 'react';
+import {translate} from 'react-translate';
 
 import {Col, Row, Button, Divider, InputNumber} from 'antd'
 
 
-export default class StartPanel extends React.Component {
+class StartPanel extends React.Component {
 
 
     constructor(props) {
@@ -24,7 +25,6 @@ export default class StartPanel extends React.Component {
         };
 
         const clickHandler = () => {
-            console.log("neues Feld soll angelegt werden: ", this.state);
             this.props.createNewBoard(this.state.sizeX, this.state.sizeY);
         };
 
@@ -32,21 +32,33 @@ export default class StartPanel extends React.Component {
 
             <Row>
                 <Col span={24}>
-                Size X:
-                <InputNumber value={this.state.sizeX} min={3} max={20} onChange={changeX}/>
+                    <Row>
+                        <Col span={12}>
+                            <b>{this.props.t("SIZE_X")}:</b>
+                        </Col>
+                        <Col span={12}>
+                            <InputNumber value={this.state.sizeX} min={3} max={20} onChange={changeX}/>
+                        </Col>
+                    </Row><br/>
                 </Col>
             </Row>
             <Row>
                 <Col span={24}>
-                Size Y:
-                <InputNumber value={this.state.sizeY} min={3} max={20} onChange={changeY}/>
+                    <Row>
+                        <Col span={12}>
+                            <b>{this.props.t("SIZE_Y")}:</b>
+                        </Col>
+                        <Col span={12}>
+                            <InputNumber value={this.state.sizeY} min={3} max={20} onChange={changeY}/>
+                        </Col>
+                    </Row><br/>
                 </Col>
             </Row>
 
             <Row>
                 <Col span={24}>
-                <Button type="primary" onClick={clickHandler} disabled={!this.valideInputs()}> neues Spielfeld
-                    erstellen</Button>
+                    <Button type="primary" onClick={clickHandler}
+                            disabled={!this.valideInputs()}>{this.props.t("CREATE")}</Button>
                 </Col>
             </Row>
 
@@ -55,7 +67,7 @@ export default class StartPanel extends React.Component {
 
             <Row>
                 <Col span={24}>
-                <Button type="primary" onClick={this.props.startGame}> Spiel starten</Button>
+                    <Button type="primary" onClick={this.props.startGame}>{this.props.t("START")}</Button>
                 </Col>
             </Row>
         </div>)
@@ -70,3 +82,6 @@ export default class StartPanel extends React.Component {
     }
 
 }
+
+
+export default translate("START_PANEL")(StartPanel);

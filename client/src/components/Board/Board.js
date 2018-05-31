@@ -11,6 +11,7 @@ const getSpan = (size) => {
 
 
 
+
 class Board extends React.Component {
 
     renderBoard() {
@@ -44,7 +45,7 @@ class Board extends React.Component {
                 {renderHeader(sizeX)}
                 {fields.map((line, lineIndex) => {
                     return <Row key={lineIndex}>
-                        <Col className="lineCell"span={getSpan(sizeX)} key={`${lineIndex}-number`}> {lineIndex + 1} </Col>
+                        <Col className="lineCell"span={getSpan(sizeX)} key={`${lineIndex}-number`}> <span className="Board-Column">{lineIndex + 1}</span> </Col>
                         {
                             line.map((field, fieldIndex) => {
                                 let className = "dead";
@@ -68,8 +69,11 @@ class Board extends React.Component {
     render() {
 
         return (
-            <Card title={`${this.props.t("TITLE")} - ${this.props.step === 0 ? "noch nicht gestartet" : "Schritt " + this.props.step}`}>
+            <Card title={`${this.props.t("TITLE")} - ${this.props.step === 0 ? this.props.t("NOT_STARTED") : this.props.t("STEP") + ' ' + this.props.step}`}>
+                <div className="Board">
                 {this.renderBoard()}
+
+                </div>
             </Card>
         )
     }

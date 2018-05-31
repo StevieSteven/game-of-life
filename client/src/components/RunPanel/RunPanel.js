@@ -1,11 +1,12 @@
 import React from 'react';
+import {translate} from 'react-translate';
 
 import {Row, Button, Divider} from 'antd';
 import DecimalSlider from "../common/DecimalSlider/DecimalSlider";
 
 const ButtonGroup = Button.Group;
 
-export default class RunPanel extends React.Component {
+class RunPanel extends React.Component {
 
     state = {
         automaticRuns: false,
@@ -13,13 +14,16 @@ export default class RunPanel extends React.Component {
     };
 
     render() {
+        const {t} = this.props;
+
         const startAutomatic = () => {
 
             let id = setInterval(() => {
                 this.setState({
                     automaticRuns: true
                 });
-                this.props.nextStep()
+                if (!this.props.gameFinished)
+                    this.props.nextStep()
             }, this.state.time);
 
             this.setState({
@@ -67,33 +71,35 @@ export default class RunPanel extends React.Component {
 
             <div>
 
-                <h3>Manuelle Steuerung: </h3>
+                <h3>{t("MANUEL")}</h3>
                 <Row>
                     <ButtonGroup>
-                        <Button onClick={this.props.prevStep}>vorheriger Schritt</Button>
-                        <Button onClick={this.props.nextStep}>nächster Schritt</Button>
+                        <Button onClick={this.props.prevStep}>{t("PREV")}</Button>
+                        <Button onClick={this.props.nextStep}>{t("NEXT")}</Button>
                     </ButtonGroup>
                 </Row>
                 <Divider/>
 
-                <h3>Automatische Steuerung </h3>
+                <h3>{t("AUTOMATIC")}</h3>
                 <Row>
-                    Sekunden zwischen Schritten:
+                    {t("DISTANCE")}
                     <DecimalSlider onChange={handleSliderChange}/>
                 </Row>
 
                 <Row>
                     <Button
-                        onClick={handleAutomaticButton}>{this.state.automaticRuns ? "Automatik stoppen" : "Automatik starten"}</Button>
+                        onClick={handleAutomaticButton}>{this.state.automaticRuns ? t("AUTOMATIC_STOP") : t("AUTOMATIC_START")}</Button>
 
                 </Row>
 
                 <Divider/>
 
                 <Row>
-                    <Button onClick={handleStopGame}>STOP!</Button>
+                    <Button onClick={handleStopGame}>{t("STOP")}</Button>
                 </Row>
             </div>
         )
     }
 }
+
+export default translate("RUNNING_PANEL")(RunPanel);
