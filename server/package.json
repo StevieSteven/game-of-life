@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/babel-node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "mkdir build && npx babel src --out-file build/server.js",
+    "start": "node build/server.js",
+    "startDevelopment": "./node_modules/.bin/babel-node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-start": "npm i && npm start"
   },
   "author": "Stephan Strehler",
   "license": "ISC",
